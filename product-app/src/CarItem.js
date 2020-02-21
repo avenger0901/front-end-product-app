@@ -5,13 +5,14 @@ export default class CarItem extends Component {
         const item = this.props.data;
         return (
             <div>
-                <div>{item.brand}</div>
-                <div>{item.brand}</div>
-                <div>{item.brand}</div>
-                <div>{item.brand}</div>
-                <div>{item.brand}</div>
-                <div>{item.brand}</div>
-                <div>{item.brand}</div> 
+                <div>
+                    <div>{item.brand}</div>
+                    <div>{item.type}</div>
+                    <div>{item.year}</div>
+                    <div>{item.model}</div>
+                    <div>{item.price}</div>
+                    <img src={item.image} alt=''/>
+                </div>
             </div>
         )
     }
