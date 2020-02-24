@@ -6,12 +6,12 @@ export default class CarItem extends Component {
         return (
             <div>
                 <div>
-                    <div>{item.brand}</div>
-                    <div>{item.type}</div>
-                    <div>{item.year}</div>
-                    <div>{item.model}</div>
-                    <div>{item.price}</div>
-                    <img src={item.image} alt=''/>
+                    <img  className ='car-image'src={item.image} alt=''/>
+                    <div>Brand:{item.brand}</div>
+                    <div>Type: {item.type}</div>
+                    <div>Year: {item.year}</div>
+                    <div>Mode: {item.model}</div>
+                    <div>Price: {item.price}</div>
                 </div>
             </div>
         )
