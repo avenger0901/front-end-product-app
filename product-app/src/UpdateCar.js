@@ -1,14 +1,27 @@
-import request from 'superagent';
 import React, { Component } from 'react'
+import request from 'superagent';
 
-export default class CreateCar extends Component {
+
+export default class UpdateCar extends Component {
     state = {
-        type: 1,
-        types:[]
-    }
+        types:[],
+    };
     componentDidMount = async () => {
-        const types = await request.get('https://nameless-journey-14679.herokuapp.com/api/types');
-        this.setState({types : types.body});
+        const types = await request.get('https://nameless-journey-14679.herokuapp.com/api/types')
+        this.setState({types: types.body});
+        const car = await request.get(`https://nameless-journey-14679.herokuapp.com/api/car/${this.props.match.params.id}`);
+
+        const carToUpdate = car.body[0];
+        console.log(carToUpdate);
+        this.setState({
+            brand: carToUpdate.brand,
+            type: carToUpdate.type,
+            model: carToUpdate.model,
+            image: carToUpdate.image,
+            year: carToUpdate.year,
+            price: carToUpdate.price,
+        })
+
     }
     handleBrandChange = (e) => {
         this.setState({ brand: e.target.value })
@@ -33,6 +46,11 @@ export default class CreateCar extends Component {
     handlePriceChange = (e) => {
         this.setState({ price: e.target.value })
     }
+    handleDelete = async () => {
+        await request.delete(`https://nameless-journey-14679.herokuapp.com/api/car/${this.props.match.params.id}`);
+
+        this.props.history.push('/api/cars');
+    }
     handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -45,32 +63,30 @@ export default class CreateCar extends Component {
             price: this.state.price
         }
 
-        const dbCar = await request.post('https://nameless-journey-14679.herokuapp.com/api/cars', newCar);
+        const dbCar = await request.put('https://nameless-journey-14679.herokuapp.com/api/cars', newCar);
 
 
         console.log(dbCar)
 
-        this.props.history.push('/api/cars');
+        this.props.history.push('/');
     }
-
     render() {
         return (
             <div>
-                Create a new car!
-                <form onSubmit={this.handleSubmit}>
+                  <form onSubmit={this.handleSubmit}>
                     <label>
                         Brand: 
-                            <input onChange={this.handleBrandChange}></input>
+                            <input value={ this.state.brand } onChange={this.handleBrandChange}></input>
                     </label>
                     <br/>
                     <label>
                         Year: 
-                            <input onChange={this.handleYearChange}></input>
+                            <input value={ this.state.year } onChange={this.handleYearChange}></input>
                     </label>
                     <br/>
                     <label>
                         Type: 
-                        <select onChange={ this.handleTypeChange }>
+                        <select value={ this.state.type } onChange={ this.handleTypeChange }>
                             { this.state.types.map(type => <option value={type.id}> 
                             {type.name}
                             </option>)}
@@ -79,21 +95,24 @@ export default class CreateCar extends Component {
                     <br/>
                      <label>
                         Model: 
-                            <input onChange={this.handleModelChange}></input>
+                            <input value={ this.state.model } onChange={this.handleModelChange}></input>
                     </label>
                     <br/>
                     <label>
                         Image: 
-                            <input onChange={this.handleImageChange}></input>
+                            <input value={ this.state.image } onChange={this.handleImageChange}></input>
                     </label>
                     <br/>
                     <label>
                         Price: 
-                            <input onChange={this.handlePriceChange}></input>
+                            <input value={ this.state.price } onChange={this.handlePriceChange}></input>
                     </label>
                     <br/>
 
-                    <button>Submit</button>
+                    <button onClick= {this.handleDelete}
+                    style={{ background: 'red', marginTop: 100}}>
+                    Delete
+                    </button>
 
                 </form>
             </div>
