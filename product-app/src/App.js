@@ -2,13 +2,13 @@
 import './App.css';
 import React, { Component } from 'react'
 import Carlist from './Carlist';
+import CarDetail from './CarDetail';
 import { 
   Switch,
   Route, 
 
   BrowserRouter as Router, 
 } from 'react-router-dom';
-// import CarDetail from './CarDetail';
 
 
 export default class App extends Component {
@@ -22,8 +22,7 @@ export default class App extends Component {
             <Switch>
 
             <Route exact path ="/api/cars" component = {Carlist}/>
-            {/* <Route exact path ="/api/car/:_id" component = {CarDetail}/> */}
-            {/* <Carlist data= {this.state.data}/> */}
+            <Route exact path ="/api/car/:id" component = {CarDetail}/>
             </Switch>
         </Router>
         
