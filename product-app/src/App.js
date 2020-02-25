@@ -2,27 +2,32 @@
 import './App.css';
 import React, { Component } from 'react'
 import Carlist from './Carlist';
-import request from 'superagent'
+import CarDetail from './CarDetail';
+import CreateCar from './CreateCar';
+import { 
+  Switch,
+  Route, 
+
+  BrowserRouter as Router, 
+} from 'react-router-dom';
 
 
 export default class App extends Component {
-  state = {
-    data:[],
-  };
-  async componentDidMount(){
-    const url = 'https://nameless-journey-14679.herokuapp.com/api/cars';
-    const data = await request(url);
-    console.log('data', data.body);
-    this.setState({
-      data:data.body,
-    })
- 
-  }
+
 
   render() {
     return (
       <div>
-        <Carlist data= {this.state.data}/>
+        <Router>
+
+            <Switch>
+
+            <Route exact path ="/api/cars" component = {Carlist}/>
+            <Route exact path ="/api/car/:id" component = {CarDetail}/>
+            <Route exact path ="/admin" component = {CreateCar}/>
+
+            </Switch>
+        </Router>
         
       </div>
     )
